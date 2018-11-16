@@ -1,4 +1,12 @@
 package com.example.mrrexz.mytaxiandroid.di.module
 
-class BaseActivityModule {
+import com.example.mrrexz.mytaxiandroid.MainActivity
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
+
+@Module
+abstract class BaseActivityModule {
+
+    @ContributesAndroidInjector
+    abstract fun mainActivity() : MainActivity
 }
