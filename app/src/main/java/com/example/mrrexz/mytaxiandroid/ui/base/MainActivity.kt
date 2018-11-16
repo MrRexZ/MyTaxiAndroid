@@ -1,10 +1,9 @@
-package com.example.mrrexz.mytaxiandroid
+package com.example.mrrexz.mytaxiandroid.ui.base
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.example.mrrexz.mytaxiandroid.R
 import dagger.android.AndroidInjection
-import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.AndroidSupportInjectionModule
 
 class MainActivity : AppCompatActivity() {
 
