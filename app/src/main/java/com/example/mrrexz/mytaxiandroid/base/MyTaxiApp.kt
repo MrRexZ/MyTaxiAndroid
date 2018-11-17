@@ -24,7 +24,7 @@ class MyTaxiApp : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
-        appComponent = DaggerAppComponent.builder().baseApp(this).contextModule(ContextModule).netModule(NetworkModule).build()
+        appComponent = DaggerAppComponent.builder().baseApp(this).build()
         appComponent.inject(this)
     }
 

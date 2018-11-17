@@ -17,12 +17,8 @@ interface AppComponent {
     @Component.Builder
     interface Builder {
         fun build(): AppComponent
-
         @BindsInstance
         fun baseApp(app: MyTaxiApp) : Builder
-
-        fun netModule(netMod: NetworkModule) : Builder
-        fun contextModule(contextMod: ContextModule) : Builder
 
     }
 }
