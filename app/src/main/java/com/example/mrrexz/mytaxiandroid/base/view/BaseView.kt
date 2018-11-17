@@ -1,4 +1,4 @@
-package com.example.mrrexz.mytaxiandroid.base
+package com.example.mrrexz.mytaxiandroid.base.view
 
 import android.content.Context
 

@@ -1,7 +1,7 @@
 package com.example.mrrexz.mytaxiandroid.di.module
 
 import android.content.Context
-import com.example.mrrexz.mytaxiandroid.base.BaseView
+import com.example.mrrexz.mytaxiandroid.base.view.BaseView
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
