@@ -10,6 +10,10 @@ import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainView {
+    override fun onShowDriverListSelected() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getContext(): Context {
         return this
     }

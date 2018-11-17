@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyTaxiAndroid</string>
+    <string name="my_taxi_android_challenge">My Taxi Android Challenge</string>
+    <string name="show_drivers_list">Show Drivers List</string>
 </resources>
