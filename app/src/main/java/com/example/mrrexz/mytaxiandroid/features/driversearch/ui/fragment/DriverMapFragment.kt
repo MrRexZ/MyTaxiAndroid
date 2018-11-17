@@ -1,4 +1,6 @@
 package com.example.mrrexz.mytaxiandroid.features.driversearch.ui.fragment
 
-class DriverMapFragment {
+import com.example.mrrexz.mytaxiandroid.base.view.BaseFragment
+
+class DriverMapFragment : BaseFragment() {
 }

@@ -1,9 +1,8 @@
 package com.example.mrrexz.mytaxiandroid.features.driversearch.ui.view
 
-import com.example.mrrexz.mytaxiandroid.base.view.BaseActivityView
 import com.example.mrrexz.mytaxiandroid.base.view.BaseView
 
-interface DriverOverviewView {
+interface DriverOverviewView : BaseView {
 
     fun onDriverDataFetchSuccess()
     fun onDriverDataFetchFailed()

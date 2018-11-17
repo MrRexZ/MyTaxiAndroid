@@ -1,8 +1,8 @@
 package com.example.mrrexz.mytaxiandroid.features.main.view
 
-import com.example.mrrexz.mytaxiandroid.base.view.BaseActivityView
+import com.example.mrrexz.mytaxiandroid.base.view.BaseView
 
-interface MainView : BaseActivityView {
+interface MainView : BaseView {
 
     fun onShowDriverListSelected()
 }

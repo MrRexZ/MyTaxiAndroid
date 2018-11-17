@@ -1,7 +1,7 @@
 package com.example.mrrexz.mytaxiandroid.di.module
 
 import android.content.Context
-import com.example.mrrexz.mytaxiandroid.base.view.BaseActivityView
+import com.example.mrrexz.mytaxiandroid.base.view.BaseView
 import dagger.Module
 import dagger.Provides
 import org.jetbrains.annotations.Nullable
@@ -14,12 +14,9 @@ object ContextModule {
     @Singleton
     @JvmStatic
     @Nullable
-    internal fun provideContext(bView : BaseActivityView) : Context {
+    internal fun provideContext(bView : BaseView) : Context? {
         return bView.getContext()
     }
-
-    //TODO: Provide context from fragment here...
-
 
 
 }
