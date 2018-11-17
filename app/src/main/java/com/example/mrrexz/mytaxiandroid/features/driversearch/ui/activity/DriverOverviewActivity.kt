@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import com.example.mrrexz.mytaxiandroid.R
 import com.example.mrrexz.mytaxiandroid.base.view.BaseActivity
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.Coordinate
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.response.DriverResp
+import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.DriverOverviewPresenter
 import com.example.mrrexz.mytaxiandroid.features.driversearch.ui.fragment.DriverListingFragment
 import com.example.mrrexz.mytaxiandroid.features.driversearch.ui.view.DriverOverviewView
 import dagger.android.AndroidInjection
@@ -17,6 +20,10 @@ import kotlinx.android.synthetic.main.driver_overview_activity.view.*
 import javax.inject.Inject
 
 class DriverOverviewActivity : BaseActivity(), DriverOverviewView , HasSupportFragmentInjector{
+
+    @Inject
+    lateinit var presenter: DriverOverviewPresenter
+
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
@@ -27,7 +34,12 @@ class DriverOverviewActivity : BaseActivity(), DriverOverviewView , HasSupportFr
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.driver_overview_activity)
+        presenter.onViewCreated()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onViewDestroyed()
     }
 
     internal fun navigateToDeliveryListFragment() {
@@ -46,13 +58,15 @@ class DriverOverviewActivity : BaseActivity(), DriverOverviewView , HasSupportFr
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onDriverDataFetchSuccess() {
+    override fun onDriverDataFetchSuccess(driverDataResp: List<DriverResp>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onDriverDataFetchFailed() {
+    override fun onDriverDataFetchFailed(error: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+
 
     override fun getContext(): Context {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

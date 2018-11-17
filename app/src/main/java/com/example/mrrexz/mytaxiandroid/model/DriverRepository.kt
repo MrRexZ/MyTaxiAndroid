@@ -1,14 +1,17 @@
 package com.example.mrrexz.mytaxiandroid.model
 
 import com.example.mrrexz.mytaxiandroid.api.DriversApi
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.request.DriversReq
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.response.DriverResp
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class DriverRepository {
     @Inject
-    lateinit var driversApi: DriversApi
+    internal lateinit var driversApi: DriversApi
 
-    fun getDrivers(p1Lat : String, p1Long : String, p2Lat : String, p2Long : String) {
-        return driversApi.getDrivers(p1Lat, p1Long, p2Lat, p2Long)
+    fun getDrivers(driverReq : DriversReq) : Observable<List<DriverResp>> {
+        return driversApi.getDrivers(driverReq.p1Lat, driverReq.p1Lon, driverReq.p2Lat, driverReq.p2Long)
     }
 
 }
