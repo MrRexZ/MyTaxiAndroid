@@ -12,7 +12,4 @@ abstract class DriverOverviewActivityViewModule {
 
     @Binds
     abstract fun bindsDriverOverviewActivity(driverOverviewActivity: DriverOverviewActivity): DriverOverviewView
-
-    @Binds
-    abstract fun bindsDriverListFragment(driverListingFragment: DriverListingFragment): DriverListingView
 }

@@ -8,9 +8,12 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class DriverOverviewFragmentModule {
 
-    @ContributesAndroidInjector
+
+
+    @ContributesAndroidInjector(modules = [DriverListingViewModule::class, DriverListingFragmentModule::class])
     abstract fun contributeDriverListingFragment() : DriverListingFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeDriverMapFragmetn() : DriverMapFragment
+    abstract fun contributeDriverMapFragment() : DriverMapFragment
+
 }
