@@ -4,18 +4,15 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.example.mrrexz.mytaxiandroid.R
+import com.example.mrrexz.mytaxiandroid.base.view.BaseActivity
 import com.example.mrrexz.mytaxiandroid.features.main.presenter.MainPresenter
 import com.example.mrrexz.mytaxiandroid.features.main.view.MainView
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : BaseActivity(), MainView {
     override fun onShowDriverListSelected() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getContext(): Context {
-        return this
     }
 
     @Inject

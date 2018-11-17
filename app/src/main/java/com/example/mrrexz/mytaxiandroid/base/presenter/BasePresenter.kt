@@ -1,8 +1,8 @@
 package com.example.mrrexz.mytaxiandroid.base.presenter
 
-import com.example.mrrexz.mytaxiandroid.base.view.BaseView
+import com.example.mrrexz.mytaxiandroid.base.view.BaseActivityView
 
-abstract class BasePresenter<out V : BaseView>(protected val view : V) {
+abstract class BasePresenter<out V : BaseActivityView>(protected val view : V) {
 
 
     abstract fun onViewCreated()
