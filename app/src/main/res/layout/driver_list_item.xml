@@ -27,7 +27,7 @@
             android:id="@+id/driver_list_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="0112312313123213101123123131232131011231231312321310112312313123213101123123131232131"
+            android:hint="01123123131232131011231231312321310112"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             android:text="@{driver.id}"
