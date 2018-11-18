@@ -1,18 +1,26 @@
 package com.example.mrrexz.mytaxiandroid.features.driversearch.presenter
 
 import com.example.mrrexz.mytaxiandroid.base.presenter.BasePresenter
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.Coordinate
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.request.DriversReq
-import com.example.mrrexz.mytaxiandroid.features.driversearch.ui.view.DriverOverviewView
+import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.contract.DriverOverviewContract
 import com.example.mrrexz.mytaxiandroid.model.DriverRepository
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.sql.Driver
 import javax.inject.Inject
 
-class DriverOverviewPresenter(driverOverviewView: DriverOverviewView) : BasePresenter<DriverOverviewView>(driverOverviewView) {
-    @Inject
-    lateinit var driverRepo : DriverRepository
+class DriverOverviewPresenter(driverOverviewView: DriverOverviewContract.DriverOverviewView, var driverRepo : DriverRepository) : BasePresenter<DriverOverviewContract.DriverOverviewView>(driverOverviewView)
+, DriverOverviewContract.DriverOverviewPresenter{
+    override fun requestDriverData(coor1: Coordinate, coor2: Coordinate) {
+        loadDriversDetails(DriversReq(coor1.lat, coor1.long, coor2.lat, coor2.long))
+    }
+
+    init {
+
+    }
+
 
 
     var subscription : Disposable? = null

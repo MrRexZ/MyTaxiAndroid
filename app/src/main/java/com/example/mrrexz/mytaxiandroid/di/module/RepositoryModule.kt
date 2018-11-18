@@ -1,5 +1,6 @@
 package com.example.mrrexz.mytaxiandroid.di.module
 
+import com.example.mrrexz.mytaxiandroid.api.DriversApi
 import com.example.mrrexz.mytaxiandroid.model.DriverRepository
 import dagger.Module
 import dagger.Provides
@@ -10,7 +11,7 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideDriverRepo(): DriverRepository {
-        return DriverRepository()
+    fun provideDriverRepo(driversApi: DriversApi): DriverRepository {
+        return DriverRepository(driversApi)
     }
 }

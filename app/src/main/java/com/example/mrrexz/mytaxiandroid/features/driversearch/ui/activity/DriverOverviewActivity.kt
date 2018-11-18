@@ -1,31 +1,53 @@
 package com.example.mrrexz.mytaxiandroid.features.driversearch.ui.activity
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
+import android.util.Log
+import android.view.View
 import com.example.mrrexz.mytaxiandroid.R
 import com.example.mrrexz.mytaxiandroid.base.view.BaseActivity
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.Coordinate
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.DriverList
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.response.DriverResp
 import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.DriverOverviewPresenter
+import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.contract.DriverOverviewContract
 import com.example.mrrexz.mytaxiandroid.features.driversearch.ui.fragment.DriverListingFragment
-import com.example.mrrexz.mytaxiandroid.features.driversearch.ui.view.DriverOverviewView
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
-import kotlinx.android.synthetic.main.driver_overview_activity.view.*
+import kotlinx.android.synthetic.main.driver_overview_activity.*
 import javax.inject.Inject
 
-class DriverOverviewActivity : BaseActivity(), DriverOverviewView , HasSupportFragmentInjector{
+class DriverOverviewActivity : BaseActivity(),
+    DriverOverviewContract.DriverOverviewView, HasSupportFragmentInjector {
+
+    companion object {
+        const val COOR1_KEY = "coor1_key"
+        const val COOR2_KEY = "coor2_key"
+
+        fun startDriverOverviewActivity(
+            context: Context,
+            lat1: Double,
+            lon1: Double,
+            lat2: Double,
+            lon2: Double
+        ): Intent {
+            val intent = Intent(context, DriverOverviewActivity::class.java)
+            intent.putExtra(COOR1_KEY, Coordinate(lat1, lon1))
+            intent.putExtra(COOR2_KEY, Coordinate(lat2, lon2))
+            return intent
+        }
+    }
 
     @Inject
     lateinit var presenter: DriverOverviewPresenter
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return dispatchingAndroidInjector
     }
@@ -35,6 +57,13 @@ class DriverOverviewActivity : BaseActivity(), DriverOverviewView , HasSupportFr
         super.onCreate(savedInstanceState)
         setContentView(R.layout.driver_overview_activity)
         presenter.onViewCreated()
+        requestTestDriverData()
+    }
+
+    fun requestTestDriverData() {
+        var coor1: Coordinate = intent.extras.get(COOR1_KEY) as Coordinate
+        var coor2: Coordinate = intent.extras.get(COOR2_KEY) as Coordinate
+        presenter.requestDriverData(coor1, coor2)
     }
 
     override fun onDestroy() {
@@ -43,33 +72,26 @@ class DriverOverviewActivity : BaseActivity(), DriverOverviewView , HasSupportFr
     }
 
     internal fun navigateToDeliveryListFragment() {
-        var driverListFragment : Fragment = DriverListingFragment()
+        var driverListFragment: Fragment = DriverListingFragment()
         var transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.driver_overview_root, driverListFragment)
         transaction.commit()
     }
 
     override fun showLoading() {
-
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        driver_overview_progressBar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        driver_overview_progressBar.visibility = View.GONE
     }
 
-    override fun onDriverDataFetchSuccess(driverDataResp: List<DriverResp>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onDriverDataFetchSuccess(driverDataResp: DriverList) {
+        Log.d("","")
     }
 
     override fun onDriverDataFetchFailed(error: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-
-
-    override fun getContext(): Context {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.e("ERROR", "OnDriverDataFetchFailed")
     }
 
 }

@@ -6,11 +6,13 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.example.mrrexz.mytaxiandroid.R
 import com.example.mrrexz.mytaxiandroid.base.view.BaseActivity
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.Coordinate
 import com.example.mrrexz.mytaxiandroid.features.driversearch.ui.activity.DriverOverviewActivity
 import com.example.mrrexz.mytaxiandroid.features.main.presenter.MainPresenter
 import com.example.mrrexz.mytaxiandroid.features.main.view.MainView
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.Serializable
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainView {
@@ -37,8 +39,8 @@ class MainActivity : BaseActivity(), MainView {
 
 
     internal fun navigateToDriverOverview() {
-        val intent = Intent(this, DriverOverviewActivity::class.java)
-        startActivity(intent)
+        startActivity(DriverOverviewActivity.startDriverOverviewActivity(this, 53.694865, 9.757589,
+            53.394655, 10.099891))
     }
 
     override fun onShowDriverListSelected() {

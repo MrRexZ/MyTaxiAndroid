@@ -1,11 +1,10 @@
 package com.example.mrrexz.mytaxiandroid.features.driversearch.di
 
 import android.content.Context
-import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.DriverListPresenter
 import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.DriverOverviewPresenter
+import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.contract.DriverOverviewContract
 import com.example.mrrexz.mytaxiandroid.features.driversearch.ui.activity.DriverOverviewActivity
-import com.example.mrrexz.mytaxiandroid.features.driversearch.ui.view.DriverListingView
-import com.example.mrrexz.mytaxiandroid.features.driversearch.ui.view.DriverOverviewView
+import com.example.mrrexz.mytaxiandroid.model.DriverRepository
 import dagger.Module
 import dagger.Provides
 
@@ -18,9 +17,10 @@ class DriverOverviewActivityModule {
         return driverOverviewActivity
     }
 
+
     @Provides
-    fun provideDriverOverviewPresenter(driverOverviewView: DriverOverviewView) : DriverOverviewPresenter {
-        return DriverOverviewPresenter(driverOverviewView)
+    fun provideDOP(driverOverviewView: DriverOverviewContract.DriverOverviewView, driverRepo : DriverRepository) : DriverOverviewPresenter {
+        return DriverOverviewPresenter(driverOverviewView, driverRepo)
     }
 
 }
