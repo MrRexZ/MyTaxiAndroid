@@ -2,8 +2,7 @@ package com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.contrac
 
 import com.example.mrrexz.mytaxiandroid.base.view.BaseView
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.Coordinate
-import com.example.mrrexz.mytaxiandroid.features.driversearch.model.DriverList
-import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.response.DriverResp
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.DriverList
 
 interface DriverOverviewContract {
 

@@ -9,8 +9,7 @@ import android.view.View
 import com.example.mrrexz.mytaxiandroid.R
 import com.example.mrrexz.mytaxiandroid.base.view.BaseActivity
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.Coordinate
-import com.example.mrrexz.mytaxiandroid.features.driversearch.model.DriverList
-import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.response.DriverResp
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.DriverList
 import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.DriverOverviewPresenter
 import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.contract.DriverOverviewContract
 import com.example.mrrexz.mytaxiandroid.features.driversearch.ui.fragment.DriverListingFragment

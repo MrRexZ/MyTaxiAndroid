@@ -1,7 +1,6 @@
 package com.example.mrrexz.mytaxiandroid.api
 
-import com.example.mrrexz.mytaxiandroid.features.driversearch.model.DriverList
-import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.response.DriverResp
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.DriverList
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
