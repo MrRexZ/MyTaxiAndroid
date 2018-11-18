@@ -60,7 +60,6 @@ class DriverOverviewActivity : BaseActivity(),
         setContentView(R.layout.driver_overview_activity)
         presenter.onViewCreated()
         requestTestDriverData()
-        observeDriverData()
     }
 
     fun requestTestDriverData() {
@@ -74,8 +73,10 @@ class DriverOverviewActivity : BaseActivity(),
         presenter.onViewDestroyed()
     }
 
-    internal fun navigateToDeliveryListFragment() {
-        var driverListFragment: Fragment = DriverListingFragment()
+    override fun navigateToDeliveryListFragment() {
+        var coor1: Coordinate = intent.extras.get(COOR1_KEY) as Coordinate
+        var coor2: Coordinate = intent.extras.get(COOR2_KEY) as Coordinate
+        var driverListFragment: Fragment = DriverListingFragment.onNewInstance(coor1, coor2)
         var transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.driver_overview_root, driverListFragment)
         transaction.commit()
@@ -91,17 +92,14 @@ class DriverOverviewActivity : BaseActivity(),
 
     override fun onDriverDataFetchSuccess(driverDataResp: DriverList) {
         Timber.d("Driver data fetch success")
+        navigateToDeliveryListFragment()
     }
 
     override fun onDriverDataFetchFailed(error: String) {
         Timber.e(error)
     }
 
-    fun observeDriverData() {
-        var coor1: Coordinate = intent.extras.get(COOR1_KEY) as Coordinate
-        var coor2: Coordinate = intent.extras.get(COOR2_KEY) as Coordinate
-        presenter.observeDriverData(coor1, coor2)
-    }
+
 
     override fun onDriverDataAvailable(driverDbList: List<DriverDb>) {
         Timber.d("Driver data loaded successfully")

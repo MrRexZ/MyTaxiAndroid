@@ -11,13 +11,13 @@ interface DriverOverviewContract {
         fun onDriverDataAvailable(driverDbList: List<DriverDb>)
         fun onDriverDataFetchSuccess(driverDataResp: DriverList)
         fun onDriverDataFetchFailed(error: String)
+        fun navigateToDeliveryListFragment()
         fun showLoading()
         fun hideLoading()
     }
 
     interface DriverOverviewPresenter {
         fun requestDriverData(coor1: Coordinate, coor2: Coordinate)
-        fun observeDriverData(coor1: Coordinate, coor2: Coordinate)
     }
 }
 

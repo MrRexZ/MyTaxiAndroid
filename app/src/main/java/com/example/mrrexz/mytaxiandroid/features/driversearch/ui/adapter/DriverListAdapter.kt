@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.mrrexz.mytaxiandroid.R
 import com.example.mrrexz.mytaxiandroid.databinding.DriverListItemBinding
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.Coordinate
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.db.DriverDb
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.vo.Driver
 
 class DriverListAdapter(private val context : Context) : RecyclerView.Adapter<DriverListAdapter.DriverListViewHolder>(){
@@ -27,8 +29,13 @@ class DriverListAdapter(private val context : Context) : RecyclerView.Adapter<Dr
 
     private var drivers : List<Driver>  = listOf()
 
-    fun updateDrivers(driverList : List<Driver>) {
-        this.drivers = driverList
+    fun updateDrivers(driverList : List<DriverDb>) {
+        val newDrivers : MutableList<Driver> = listOf<Driver>().toMutableList()
+        for (driverDb in driverList) {
+            val driver = Driver(driverDb.id, Coordinate(driverDb.driverCoordLat, driverDb.driverCoordLon), driverDb.fleetType, driverDb.heading)
+            newDrivers.add(driver)
+        }
+        this.drivers = newDrivers
         notifyDataSetChanged()
     }
 

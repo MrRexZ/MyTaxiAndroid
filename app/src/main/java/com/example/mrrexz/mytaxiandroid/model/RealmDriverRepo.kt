@@ -13,32 +13,31 @@ import io.realm.RealmResults
 import io.realm.kotlin.createObject
 
 class RealmDriverRepo(private var driverApi: DriversApi) : DriverRepository {
+
     override fun deleteAllDrivers(driverReq: DriversReq) {
+        var realm = Realm.getDefaultInstance()
+        var res : RealmResults<DriverDb> = realm.where(DriverDb::class.java).equalTo("searchCoor1Lat", driverReq.p1Lat).equalTo("searchCoor1Lon", driverReq.p1Lon)
+            .equalTo("searchCoor2Lat", driverReq.p2Lat).equalTo("searchCoor2Lon", driverReq.p2Lon)
+            .findAll()
 
-        Realm.getDefaultInstance().use { realm ->
-            var res : RealmResults<DriverDb> = realm.where(DriverDb::class.java).equalTo("searchCoor1Lat", driverReq.p1Lat).equalTo("searchCoor1Lon", driverReq.p1Lon)
-                .equalTo("searchCoor2Lat", driverReq.p2Lat).equalTo("searchCoor2Lon", driverReq.p2Lon)
-                .findAll()
-
-            realm.executeTransaction { res.deleteAllFromRealm() }
-        }
+        realm?.executeTransaction { res.deleteAllFromRealm() }
     }
 
     override fun insertDrivers(driverReq : DriversReq, driverList: DriverList) {
+
+        var realm = Realm.getDefaultInstance()
         val driversResp = driverList.drivers
-        Realm.getDefaultInstance().use {realm ->
-            realm.executeTransaction {
-                for (driver in driversResp) {
-                    val driverDbObj = realm.createObject(DriverDb::class.java, driver.id)
-                    driverDbObj.searchCoor1Lat =driverReq.p1Lat
-                    driverDbObj.searchCoor1Lon =driverReq.p1Lon
-                    driverDbObj.searchCoor2Lat =driverReq.p2Lat
-                    driverDbObj.searchCoor2Lon =driverReq.p2Lon
-                    driverDbObj.driverCoordLat = driver.coordinate.latitude
-                    driverDbObj.driverCoordLon = driver.coordinate.longitude
-                    driverDbObj.fleetType = driver.fleetType
-                    driverDbObj.heading = driver.heading
-                }
+        realm.executeTransaction {
+            for (driver in driversResp) {
+                val driverDbObj = realm.createObject(DriverDb::class.java, driver.id)
+                driverDbObj.searchCoor1Lat =driverReq.p1Lat
+                driverDbObj.searchCoor1Lon =driverReq.p1Lon
+                driverDbObj.searchCoor2Lat =driverReq.p2Lat
+                driverDbObj.searchCoor2Lon =driverReq.p2Lon
+                driverDbObj.driverCoordLat = driver.coordinate.latitude
+                driverDbObj.driverCoordLon = driver.coordinate.longitude
+                driverDbObj.fleetType = driver.fleetType
+                driverDbObj.heading = driver.heading
             }
         }
 
@@ -46,15 +45,13 @@ class RealmDriverRepo(private var driverApi: DriversApi) : DriverRepository {
 
     override fun getDrivers(driverReq: DriversReq): Flowable<List<DriverDb>> {
 
-        Realm.getDefaultInstance().use { realm ->
-            var query: RealmQuery<DriverDb> = realm.where(DriverDb::class.java)
-            var flowable: Flowable<RealmResults<DriverDb>>;
-            flowable = query.equalTo("searchCoor1Lat", driverReq.p1Lat).equalTo("searchCoor1Lon", driverReq.p1Lon)
-                .equalTo("searchCoor2Lat", driverReq.p2Lat).equalTo("searchCoor2Lon", driverReq.p2Lon)
-                .findAll().asFlowable()
-            return flowable as Flowable<List<DriverDb>>
-
-        } // realm is closed by try-with-resources
+        var realm = Realm.getDefaultInstance()
+        var query: RealmQuery<DriverDb> = realm.where(DriverDb::class.java)
+        var flowable: Flowable<RealmResults<DriverDb>>;
+        flowable = query.equalTo("searchCoor1Lat", driverReq.p1Lat).equalTo("searchCoor1Lon", driverReq.p1Lon)
+            .equalTo("searchCoor2Lat", driverReq.p2Lat).equalTo("searchCoor2Lon", driverReq.p2Lon)
+            .findAll().asFlowable()
+        return flowable as Flowable<List<DriverDb>>
 
 
     }

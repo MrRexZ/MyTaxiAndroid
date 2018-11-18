@@ -30,6 +30,7 @@
             android:hint="0112312313123213101123123131232131011231231312321310112312313123213101123123131232131"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
+            android:text="@{driver.id}"
             app:layout_constraintStart_toEndOf="@+id/id_title_text"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="POOLING"
+            android:text="@{driver.fleetType}"
             app:layout_constraintStart_toEndOf="@+id/driver_list_fleet_type_text"
             app:layout_constraintTop_toTopOf="@id/driver_list_fleet_type_text"
             tools:layout_editor_absoluteY="51dp" />
@@ -67,6 +69,7 @@
             app:layout_constraintStart_toEndOf="@id/driver_list_lat_text"
             app:layout_constraintTop_toBottomOf="@+id/driver_list_id"
             app:layout_constraintTop_toTopOf="@id/driver_list_lat_text"
+            android:setTextDouble="@{driver.coord.lat}"
             android:hint="53.470096427876534"
             android:layout_marginLeft="8dp"
             />
@@ -87,9 +90,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:setTextDouble="@{driver.coord.lon}"
             android:layout_marginLeft="8dp"
             android:hint="10.010977580640507"
-
             app:layout_constraintStart_toEndOf="@id/driver_list_lon_text"
             app:layout_constraintTop_toTopOf="@+id/driver_list_lon_text" />
 
