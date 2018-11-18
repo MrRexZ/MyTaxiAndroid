@@ -7,6 +7,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 27
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         applicationId "com.example.mrrexz.mytaxiandroid"
         minSdkVersion 16
@@ -31,9 +34,13 @@ dependencies {
     implementation 'com.google.dagger:dagger-android:2.15'
     implementation 'com.google.dagger:dagger-android-support:2.15'
     kapt 'com.google.dagger:dagger-android-processor:2.15'
+    kapt "com.android.databinding:compiler:$gradle_version"
 
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //Android Support Library
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation "com.android.support:recyclerview-v7:27.1.1"
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 

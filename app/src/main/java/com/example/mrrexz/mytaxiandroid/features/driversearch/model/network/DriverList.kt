@@ -1,4 +1,4 @@
-package com.example.mrrexz.mytaxiandroid.features.driversearch.model
+package com.example.mrrexz.mytaxiandroid.features.driversearch.model.network
 
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.response.DriverResp
 import com.squareup.moshi.Json
