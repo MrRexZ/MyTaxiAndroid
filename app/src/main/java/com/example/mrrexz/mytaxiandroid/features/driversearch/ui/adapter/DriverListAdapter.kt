@@ -10,8 +10,9 @@ import com.example.mrrexz.mytaxiandroid.databinding.DriverListItemBinding
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.Coordinate
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.db.DriverDb
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.vo.Driver
+import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.contract.DriverListingContract
 
-class DriverListAdapter(private val context : Context) : RecyclerView.Adapter<DriverListAdapter.DriverListViewHolder>(){
+class DriverListAdapter(private val context : Context, private val clickListener : DriverListingContract.DriverListClickListener) : RecyclerView.Adapter<DriverListAdapter.DriverListViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DriverListViewHolder {
         var layoutInflater = LayoutInflater.from(context)
         val binding : DriverListItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.driver_list_item, parent, false)
@@ -39,9 +40,12 @@ class DriverListAdapter(private val context : Context) : RecyclerView.Adapter<Dr
         notifyDataSetChanged()
     }
 
-    class DriverListViewHolder(private val binding : DriverListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class DriverListViewHolder(private val binding : DriverListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(driver : Driver) {
             binding.driver = driver
+            binding.root.setOnClickListener {
+                clickListener.onDriverListClick(driver.id)
+            }
             binding.executePendingBindings()
         }
     }

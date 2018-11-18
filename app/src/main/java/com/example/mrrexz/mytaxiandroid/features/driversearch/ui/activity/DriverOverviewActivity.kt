@@ -78,7 +78,7 @@ class DriverOverviewActivity : BaseActivity(),
         var coor2: Coordinate = intent.extras.get(COOR2_KEY) as Coordinate
         var driverListFragment: Fragment = DriverListingFragment.onNewInstance(coor1, coor2)
         var transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.driver_overview_root, driverListFragment)
+        transaction.add(android.R.id.content, driverListFragment)
         transaction.commit()
     }
 

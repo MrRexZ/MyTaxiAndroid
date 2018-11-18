@@ -25,7 +25,13 @@ import kotlinx.android.synthetic.main.driver_list_fragment.*
 import timber.log.Timber
 import javax.inject.Inject
 
-class DriverListingFragment : BaseFragment(), DriverListingContract.DriverListingView {
+class DriverListingFragment : BaseFragment(), DriverListingContract.DriverListingView, DriverListingContract.DriverListClickListener {
+    override fun onDriverListClick(driverId: String) {
+        val driverMapFragment = DriverMapFragment.onNewInstance(driverId)
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.add(android.R.id.content, driverMapFragment)?.addToBackStack(null)?.commit()
+    }
+
     companion object {
 
         const val COOR1_KEY = "coor1_key"
@@ -83,7 +89,7 @@ class DriverListingFragment : BaseFragment(), DriverListingContract.DriverListin
     fun setAdapter() {
         if (context != null) {
             var context = context!!
-            driverListAdapter = DriverListAdapter(context)
+            driverListAdapter = DriverListAdapter(context, this)
             driver_list_fragment_rv.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             driver_list_fragment_rv.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             driver_list_fragment_rv.adapter = driverListAdapter

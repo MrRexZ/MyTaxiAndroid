@@ -15,4 +15,8 @@ interface DriverListingContract {
     interface DriverListingPresenter {
         fun observeDriverData(coor1: Coordinate, coor2: Coordinate)
     }
+
+    interface DriverListClickListener {
+        fun onDriverListClick(driverId : String)
+    }
 }
