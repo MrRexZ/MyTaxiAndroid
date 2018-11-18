@@ -9,6 +9,8 @@ import com.example.mrrexz.mytaxiandroid.di.module.NetworkModule
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import io.realm.Realm
+import io.realm.RealmConfiguration
 import javax.inject.Inject
 
 
@@ -24,8 +26,18 @@ class MyTaxiApp : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
+        initInjection()
+        initRealm()
+    }
+
+    fun initInjection() {
         appComponent = DaggerAppComponent.builder().baseApp(this).build()
         appComponent.inject(this)
+    }
+    fun initRealm() {
+        Realm.init(this)
+        val realmConfig = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
+        Realm.setDefaultConfiguration(realmConfig)
     }
 
 

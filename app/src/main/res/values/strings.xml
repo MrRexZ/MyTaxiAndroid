@@ -5,7 +5,6 @@
     <string name="id_colon">ID :</string>
     <string name="fleet_type_colon">Fleet Type :</string>
     <string name="latitude_colon">Latitude :</string>
-
     <string name="lat_colon">Lat :</string>
     <string name="lon_colon">Long :</string>
 </resources>

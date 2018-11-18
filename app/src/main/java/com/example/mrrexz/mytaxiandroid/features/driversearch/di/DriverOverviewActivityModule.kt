@@ -7,6 +7,7 @@ import com.example.mrrexz.mytaxiandroid.features.driversearch.ui.activity.Driver
 import com.example.mrrexz.mytaxiandroid.model.DriverRepository
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 
 @Module
 class DriverOverviewActivityModule {
@@ -19,7 +20,8 @@ class DriverOverviewActivityModule {
 
 
     @Provides
-    fun provideDOP(driverOverviewView: DriverOverviewContract.DriverOverviewView, driverRepo : DriverRepository) : DriverOverviewPresenter {
+    fun provideDOP(driverOverviewView: DriverOverviewContract.DriverOverviewView,
+                   @Named("realmDriverRepo") driverRepo : DriverRepository) : DriverOverviewPresenter {
         return DriverOverviewPresenter(driverOverviewView, driverRepo)
     }
 

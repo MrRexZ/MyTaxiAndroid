@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.mrrexz.mytaxiandroid.R
 import com.example.mrrexz.mytaxiandroid.databinding.DriverListItemBinding
-import com.example.mrrexz.mytaxiandroid.features.driversearch.model.view.Driver
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.vo.Driver
 
 class DriverListAdapter(private val context : Context) : RecyclerView.Adapter<DriverListAdapter.DriverListViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DriverListViewHolder {

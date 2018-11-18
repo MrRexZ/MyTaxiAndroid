@@ -1,14 +1,18 @@
 package com.example.mrrexz.mytaxiandroid.model
 
 import com.example.mrrexz.mytaxiandroid.api.DriversApi
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.Coordinate
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.db.DriverDb
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.DriverList
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.request.DriversReq
+import io.reactivex.Flowable
 import io.reactivex.Observable
+import java.sql.Driver
 
-class DriverRepository(private var driversApi: DriversApi) {
+interface DriverRepository {
 
-    fun getDrivers(driverReq : DriversReq) : Observable<DriverList> {
-        return driversApi.getDrivers(driverReq.p1Lat, driverReq.p1Lon, driverReq.p2Lat, driverReq.p2Long)
-    }
-
+    fun getDriversFromNetwork(driverReq: DriversReq): Observable<DriverList>
+    fun getDrivers(driverReq: DriversReq): Flowable<List<DriverDb>>
+    fun insertDrivers(driverReq : DriversReq, driverList: DriverList)
+    fun deleteAllDrivers(driverReq : DriversReq)
 }

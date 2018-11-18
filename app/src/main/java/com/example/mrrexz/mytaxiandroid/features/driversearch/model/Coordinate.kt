@@ -1,5 +1,6 @@
 package com.example.mrrexz.mytaxiandroid.features.driversearch.model
 
+import io.realm.RealmObject
 import java.io.Serializable
 
-data class Coordinate(val lat : Double, val long : Double) : Serializable
+open class Coordinate(var lat : Double, var lon: Double) : Serializable

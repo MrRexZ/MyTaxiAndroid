@@ -9,6 +9,7 @@ import android.view.View
 import com.example.mrrexz.mytaxiandroid.R
 import com.example.mrrexz.mytaxiandroid.base.view.BaseActivity
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.Coordinate
+import com.example.mrrexz.mytaxiandroid.features.driversearch.model.db.DriverDb
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.network.DriverList
 import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.DriverOverviewPresenter
 import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.contract.DriverOverviewContract
@@ -18,10 +19,12 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.driver_overview_activity.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class DriverOverviewActivity : BaseActivity(),
     DriverOverviewContract.DriverOverviewView, HasSupportFragmentInjector {
+
 
     companion object {
         const val COOR1_KEY = "coor1_key"
@@ -57,6 +60,7 @@ class DriverOverviewActivity : BaseActivity(),
         setContentView(R.layout.driver_overview_activity)
         presenter.onViewCreated()
         requestTestDriverData()
+        observeDriverData()
     }
 
     fun requestTestDriverData() {
@@ -86,11 +90,20 @@ class DriverOverviewActivity : BaseActivity(),
     }
 
     override fun onDriverDataFetchSuccess(driverDataResp: DriverList) {
-        Log.d("","")
+        Timber.d("Driver data fetch success")
     }
 
     override fun onDriverDataFetchFailed(error: String) {
-        Log.e("ERROR", "OnDriverDataFetchFailed")
+        Timber.e(error)
     }
 
+    fun observeDriverData() {
+        var coor1: Coordinate = intent.extras.get(COOR1_KEY) as Coordinate
+        var coor2: Coordinate = intent.extras.get(COOR2_KEY) as Coordinate
+        presenter.observeDriverData(coor1, coor2)
+    }
+
+    override fun onDriverDataAvailable(driverDbList: List<DriverDb>) {
+        Timber.d("Driver data loaded successfully")
+    }
 }

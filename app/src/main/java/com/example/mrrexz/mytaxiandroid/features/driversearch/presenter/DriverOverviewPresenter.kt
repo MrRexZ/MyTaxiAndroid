@@ -8,13 +8,16 @@ import com.example.mrrexz.mytaxiandroid.model.DriverRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.sql.Driver
-import javax.inject.Inject
 
-class DriverOverviewPresenter(driverOverviewView: DriverOverviewContract.DriverOverviewView, var driverRepo : DriverRepository) : BasePresenter<DriverOverviewContract.DriverOverviewView>(driverOverviewView)
-, DriverOverviewContract.DriverOverviewPresenter{
+class DriverOverviewPresenter(
+    driverOverviewView: DriverOverviewContract.DriverOverviewView,
+    var driverRepo: DriverRepository
+) : BasePresenter<DriverOverviewContract.DriverOverviewView>(driverOverviewView)
+    , DriverOverviewContract.DriverOverviewPresenter {
+
+
     override fun requestDriverData(coor1: Coordinate, coor2: Coordinate) {
-        loadDriversDetails(DriversReq(coor1.lat, coor1.long, coor2.lat, coor2.long))
+        loadDriversDetails(DriversReq(coor1.lat, coor1.lon, coor2.lat, coor2.lon))
     }
 
     init {
@@ -22,19 +25,39 @@ class DriverOverviewPresenter(driverOverviewView: DriverOverviewContract.DriverO
     }
 
 
-
-    var subscription : Disposable? = null
+    var subscription: Disposable? = null
     override fun onViewCreated() {
     }
 
     private fun loadDriversDetails(driverReq: DriversReq) {
-        view.showLoading()
-        subscription =  driverRepo.getDrivers(driverReq).observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io()).doOnTerminate{ view.hideLoading() }
-            .subscribe (
-                { driverListResp -> view.onDriverDataFetchSuccess(driverListResp)},
-                { view.onDriverDataFetchFailed("Unknown error")}
+        subscription = driverRepo.getDriversFromNetwork(driverReq)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnTerminate { view.hideLoading() }
+            .subscribe(
+                { driverListResp ->
+                    run {
+                        view.onDriverDataFetchSuccess(driverListResp)
+                        driverRepo.deleteAllDrivers(driverReq)
+                        driverRepo.insertDrivers(driverReq, driverListResp)
+                    }
+                },
+                { view.onDriverDataFetchFailed("Error fetching driver details") }
             )
+    }
+
+    override fun observeDriverData(coor1: Coordinate, coor2: Coordinate) {
+        view.showLoading()
+        subscription = driverRepo.getDrivers(DriversReq(coor1.lat, coor1.lon, coor2.lat, coor2.lon))
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnTerminate { view.hideLoading() }
+            .subscribe({ driverListDb ->
+                run {
+                    view.onDriverDataAvailable(driverListDb)
+                }
+            }, {
+                view.onDriverDataFetchFailed("Error loading driver data")
+            })
     }
 
     override fun onViewDestroyed() {
