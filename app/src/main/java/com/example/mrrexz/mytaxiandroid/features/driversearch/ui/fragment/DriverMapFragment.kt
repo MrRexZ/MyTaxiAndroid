@@ -17,6 +17,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import kotlinx.android.synthetic.main.driver_map_fragment.*
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.LatLng
 import dagger.android.support.AndroidSupportInjection
@@ -25,6 +27,23 @@ import javax.inject.Inject
 
 
 class DriverMapFragment : BaseFragment(), DriverMapContract.DriverMapView, OnMapReadyCallback {
+    override fun initMap() {
+        initGoogleMap()
+    }
+
+    override fun renderCarIconOnMap(lat: Double, lon: Double, fleetType: String) {
+
+        val bitmapDescriptorFactory : BitmapDescriptor
+        if (fleetType == "POOLING") {
+            bitmapDescriptorFactory = BitmapDescriptorFactory.fromResource(R.drawable.pooling_car_48)
+        } else if (fleetType == "TAXI") {
+            bitmapDescriptorFactory = BitmapDescriptorFactory.fromResource(R.drawable.taxi_car_48)
+        } else {
+            bitmapDescriptorFactory = BitmapDescriptorFactory.fromResource(R.drawable.pooling_car_48)
+        }
+        gMap?.addMarker(MarkerOptions().position(LatLng(lat, lon)).icon(bitmapDescriptorFactory))
+    }
+
     override fun requestDisplayData(boundsCoor1: Coordinate, boundsCoor2: Coordinate) {
         driverMapPresenter.displayDriverDataOnMap(boundsCoor1, boundsCoor2)
     }
@@ -34,19 +53,19 @@ class DriverMapFragment : BaseFragment(), DriverMapContract.DriverMapView, OnMap
         gMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(lat, lon), 15f))
     }
 
-    private var gMap : GoogleMap? = null
+    private var gMap: GoogleMap? = null
     override fun onMapReady(p0: GoogleMap?) {
         gMap = p0
     }
 
     @Inject
-    lateinit var driverMapPresenter : DriverMapPresenter
+    lateinit var driverMapPresenter: DriverMapPresenter
 
     companion object {
         const val DRIVER_ID_KEY = "DRIVER_ID_KEY"
         const val BOUNDS_COOR1 = "BOUNDS_COOR1"
         const val BOUNDS_COOR2 = "BOUNDS_COOR2"
-        fun onNewInstance(id : String, coor1 : Coordinate, coor2 : Coordinate) : DriverMapFragment {
+        fun onNewInstance(id: String, coor1: Coordinate, coor2: Coordinate): DriverMapFragment {
             val bundle = Bundle()
             bundle.putString(DRIVER_ID_KEY, id)
             bundle.putSerializable(BOUNDS_COOR1, coor1)
@@ -70,7 +89,7 @@ class DriverMapFragment : BaseFragment(), DriverMapContract.DriverMapView, OnMap
         super.onViewCreated(view, savedInstanceState)
         val coor1 = arguments?.getSerializable(BOUNDS_COOR1) as Coordinate
         val coor2 = arguments?.getSerializable(BOUNDS_COOR2) as Coordinate
-        initGoogleMap()
+        initMap()
         requestDisplayData(coor1, coor2)
     }
 
@@ -79,23 +98,23 @@ class DriverMapFragment : BaseFragment(), DriverMapContract.DriverMapView, OnMap
         mapFragment.getMapAsync(this)
     }
 
-    override fun loadDriverDataOnMap(driverList : List<Driver>) {
+    override fun loadDriverDataOnMap(driverList: List<Driver>) {
         val driverIdToZoom = arguments?.getString(DRIVER_ID_KEY)
         for (driver in driverList) {
             if (driver.coord.lat != null && driver.coord.lon != null) {
-                val lat : Double = driver.coord.lat
-                val lon : Double= driver.coord.lon
-                gMap?.addMarker(MarkerOptions().position(LatLng(lat, lon)))
+                val lat: Double = driver.coord.lat
+                val lon: Double = driver.coord.lon
+                renderCarIconOnMap(lat, lon, driver.fleetType)
                 if (driver.id == driverIdToZoom) {
                     mapFocusOnLatLng(lat, lon)
                 }
             }
         }
     }
+
     override fun loadDriverDataFailed(err: String) {
         Timber.e(err)
     }
-
 
 
     override fun showLoading() {

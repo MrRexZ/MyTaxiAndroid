@@ -10,6 +10,8 @@ interface DriverMapContract {
         fun loadDriverDataOnMap(driverList : List<Driver>)
         fun loadDriverDataFailed(err : String)
         fun mapFocusOnLatLng(lat : Double, lon : Double)
+        fun initMap()
+        fun renderCarIconOnMap(lat : Double, lon : Double, fleetType : String)
         fun requestDisplayData(boundsCoor1 : Coordinate, boundsCoor2 : Coordinate)
         fun showLoading()
         fun hideLoading()
