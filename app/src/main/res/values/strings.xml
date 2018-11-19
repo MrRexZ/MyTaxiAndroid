@@ -7,4 +7,9 @@
     <string name="latitude_colon">Latitude :</string>
     <string name="lat_colon">Lat :</string>
     <string name="lon_colon">Long :</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="bounds_1_colon">Bounds 1 :</string>
+    <string name="bounds_2_colon">Bounds 2 :</string>
+    <string name="reset_latlng">Reset LatLng</string>
 </resources>

@@ -32,10 +32,10 @@ class DriverOverviewActivity : BaseActivity(),
 
         fun startDriverOverviewActivity(
             context: Context,
-            lat1: Double,
-            lon1: Double,
-            lat2: Double,
-            lon2: Double
+            lat1: Double?,
+            lon1: Double?,
+            lat2: Double?,
+            lon2: Double?
         ): Intent {
             val intent = Intent(context, DriverOverviewActivity::class.java)
             intent.putExtra(COOR1_KEY, Coordinate(lat1, lon1))
