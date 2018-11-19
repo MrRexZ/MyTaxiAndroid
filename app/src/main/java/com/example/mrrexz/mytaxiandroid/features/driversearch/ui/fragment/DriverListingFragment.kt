@@ -27,7 +27,9 @@ import javax.inject.Inject
 
 class DriverListingFragment : BaseFragment(), DriverListingContract.DriverListingView, DriverListingContract.DriverListClickListener {
     override fun onDriverListClick(driverId: String) {
-        val driverMapFragment = DriverMapFragment.onNewInstance(driverId)
+        var coor1: Coordinate = arguments?.getSerializable(DriverOverviewActivity.COOR1_KEY) as Coordinate
+        var coor2: Coordinate = arguments?.getSerializable(DriverOverviewActivity.COOR2_KEY) as Coordinate
+        val driverMapFragment = DriverMapFragment.onNewInstance(driverId, coor1, coor2)
         activity?.supportFragmentManager?.beginTransaction()
             ?.add(android.R.id.content, driverMapFragment)?.addToBackStack(null)?.commit()
     }

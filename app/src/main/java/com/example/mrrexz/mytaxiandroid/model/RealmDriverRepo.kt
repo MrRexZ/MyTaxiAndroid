@@ -44,15 +44,13 @@ class RealmDriverRepo(private var driverApi: DriversApi) : DriverRepository {
     }
 
     override fun getDrivers(driverReq: DriversReq): Flowable<List<DriverDb>> {
-
-        var realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         var query: RealmQuery<DriverDb> = realm.where(DriverDb::class.java)
         var flowable: Flowable<RealmResults<DriverDb>>;
         flowable = query.equalTo("searchCoor1Lat", driverReq.p1Lat).equalTo("searchCoor1Lon", driverReq.p1Lon)
             .equalTo("searchCoor2Lat", driverReq.p2Lat).equalTo("searchCoor2Lon", driverReq.p2Lon)
             .findAll().asFlowable()
         return flowable as Flowable<List<DriverDb>>
-
 
     }
 

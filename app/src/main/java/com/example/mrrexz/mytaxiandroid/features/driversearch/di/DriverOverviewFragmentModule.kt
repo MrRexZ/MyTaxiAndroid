@@ -13,7 +13,8 @@ abstract class DriverOverviewFragmentModule {
     @ContributesAndroidInjector(modules = [DriverListingViewModule::class, DriverListingFragmentModule::class])
     abstract fun contributeDriverListingFragment() : DriverListingFragment
 
-    @ContributesAndroidInjector
-    abstract fun contributeDriverMapFragment() : DriverMapFragment
+    @ContributesAndroidInjector(modules = [DriverMapFragmentModule::class, DriverMapViewModule::class])
+    abstract fun contributesDriverMapModule() : DriverMapFragment
+
 
 }
