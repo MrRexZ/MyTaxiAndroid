@@ -10,6 +10,8 @@ interface DriverListingContract {
         fun hideLoading()
         fun onDriverDataAvailable(driverDbList: List<DriverDb>)
         fun onDriverDataFetchFailed(error: String)
+        fun observeDriverData()
+        fun navigateToMapPage(driverId: String, coor1Bound: Coordinate, coor2Bound: Coordinate)
     }
 
     interface DriverListingPresenter {
@@ -17,6 +19,6 @@ interface DriverListingContract {
     }
 
     interface DriverListClickListener {
-        fun onDriverListClick(driverId : String)
+        fun onDriverListClick(driverId: String)
     }
 }

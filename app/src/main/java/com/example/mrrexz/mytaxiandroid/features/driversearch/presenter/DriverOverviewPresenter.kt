@@ -7,7 +7,6 @@ import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.contract
 import com.example.mrrexz.mytaxiandroid.model.DriverRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class DriverOverviewPresenter(
@@ -17,16 +16,7 @@ class DriverOverviewPresenter(
     , DriverOverviewContract.DriverOverviewPresenter {
 
 
-    override fun requestDriverData(coor1: Coordinate, coor2: Coordinate) {
-        loadDriversDetails(DriversReq(coor1.lat, coor1.lon, coor2.lat, coor2.lon))
-    }
-
-    init {
-
-    }
-
-
-    var compositeSubscription: CompositeDisposable = CompositeDisposable()
+    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
     override fun onViewCreated() {
     }
 
@@ -43,14 +33,19 @@ class DriverOverviewPresenter(
                         driverRepo.insertDrivers(driverReq, driverListResp)
                     }
                 },
-                { view.onDriverDataFetchFailed("Error fetching driver details") }
+                { view.onDriverDataFetchFailed("Error fetching driver details from endpoint :" + it.message) }
             )
 
-        compositeSubscription.add(subscription)
+        compositeDisposable.add(subscription)
+    }
+
+
+    override fun requestDriverData(coor1: Coordinate, coor2: Coordinate) {
+        loadDriversDetails(DriversReq(coor1.lat, coor1.lon, coor2.lat, coor2.lon))
     }
 
 
     override fun onViewDestroyed() {
-        compositeSubscription.dispose()
+        compositeDisposable.dispose()
     }
 }

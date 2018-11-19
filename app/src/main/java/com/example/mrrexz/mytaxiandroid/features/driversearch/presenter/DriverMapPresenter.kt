@@ -9,11 +9,10 @@ import com.example.mrrexz.mytaxiandroid.features.driversearch.presenter.contract
 import com.example.mrrexz.mytaxiandroid.model.DriverRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 class DriverMapPresenter(driverMapView: DriverMapContract.DriverMapView, var driverRepo: DriverRepository) :
     BasePresenter<DriverMapContract.DriverMapView>(driverMapView), DriverMapContract.DriverMapPresenter {
-    var compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun onViewCreated() {
     }
@@ -22,10 +21,15 @@ class DriverMapPresenter(driverMapView: DriverMapContract.DriverMapView, var dri
         compositeDisposable.dispose()
     }
 
-    fun convertToDriver(listDriverDb : List<DriverDb>) : List<Driver> {
-        var driversList : MutableList<Driver> = mutableListOf()
+    fun convertToDriver(listDriverDb: List<DriverDb>): List<Driver> {
+        var driversList: MutableList<Driver> = mutableListOf()
         for (driverDb in listDriverDb) {
-            var driver = Driver(driverDb.id, Coordinate(driverDb.driverCoordLat, driverDb.driverCoordLon), driverDb.fleetType, driverDb.heading)
+            var driver = Driver(
+                driverDb.id,
+                Coordinate(driverDb.driverCoordLat, driverDb.driverCoordLon),
+                driverDb.fleetType,
+                driverDb.heading
+            )
             driversList.add(driver)
         }
         return driversList
@@ -33,14 +37,14 @@ class DriverMapPresenter(driverMapView: DriverMapContract.DriverMapView, var dri
 
     override fun displayDriverDataOnMap(coor1: Coordinate, coor2: Coordinate) {
         var subscription = driverRepo.getDrivers(DriversReq(coor1.lat, coor1.lon, coor2.lat, coor2.lon))
-            .map { listDriverDb -> convertToDriver(listDriverDb)}
+            .map { listDriverDb -> convertToDriver(listDriverDb) }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({it ->
+            .subscribe({ it ->
                 run {
                     view.loadDriverDataOnMap(it)
                 }
             }, {
-                view.loadDriverDataFailed("Error loading data to map : " + it.message.toString())
+                view.loadDriverDataFailed("Error loading data to map : " + it.message)
             })
 
 

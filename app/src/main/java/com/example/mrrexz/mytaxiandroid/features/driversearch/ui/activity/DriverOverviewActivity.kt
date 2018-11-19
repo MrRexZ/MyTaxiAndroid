@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.example.mrrexz.mytaxiandroid.R
 import com.example.mrrexz.mytaxiandroid.base.view.BaseActivity
 import com.example.mrrexz.mytaxiandroid.features.driversearch.model.Coordinate
@@ -62,24 +62,20 @@ class DriverOverviewActivity : BaseActivity(),
         requestTestDriverData()
     }
 
-    fun requestTestDriverData() {
-        var coor1: Coordinate = intent.extras.get(COOR1_KEY) as Coordinate
-        var coor2: Coordinate = intent.extras.get(COOR2_KEY) as Coordinate
-        presenter.requestDriverData(coor1, coor2)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         presenter.onViewDestroyed()
     }
 
     override fun navigateToDeliveryListFragment() {
-        var coor1: Coordinate = intent.extras.get(COOR1_KEY) as Coordinate
-        var coor2: Coordinate = intent.extras.get(COOR2_KEY) as Coordinate
-        var driverListFragment: Fragment = DriverListingFragment.onNewInstance(coor1, coor2)
-        var transaction = supportFragmentManager.beginTransaction()
-        transaction.add(android.R.id.content, driverListFragment)
-        transaction.commit()
+        if (supportFragmentManager.findFragmentByTag(DriverListingFragment.toString()) == null) {
+            var coor1: Coordinate = intent.extras.get(COOR1_KEY) as Coordinate
+            var coor2: Coordinate = intent.extras.get(COOR2_KEY) as Coordinate
+            var driverListFragment: Fragment = DriverListingFragment.onNewInstance(coor1, coor2)
+            var transaction = supportFragmentManager.beginTransaction()
+            transaction.add(android.R.id.content, driverListFragment, DriverListingFragment.toString())
+            transaction.commit()
+        }
     }
 
     override fun showLoading() {
@@ -96,12 +92,19 @@ class DriverOverviewActivity : BaseActivity(),
     }
 
     override fun onDriverDataFetchFailed(error: String) {
+        Toast.makeText(this, "Fetching from driver list endpoint fails...", Toast.LENGTH_SHORT).show()
         Timber.e(error)
     }
-
-
 
     override fun onDriverDataAvailable(driverDbList: List<DriverDb>) {
         Timber.d("Driver data loaded successfully")
     }
+
+
+    private fun requestTestDriverData() {
+        var coor1: Coordinate = intent.extras.get(COOR1_KEY) as Coordinate
+        var coor2: Coordinate = intent.extras.get(COOR2_KEY) as Coordinate
+        presenter.requestDriverData(coor1, coor2)
+    }
+
 }
